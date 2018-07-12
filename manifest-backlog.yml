@@ -5,7 +5,8 @@ applications:
   - route: backlog-pal-amc.apps.pikes.pal.pivotal.io
   memory: 1G
   instances: 1
-  env:
-    REGISTRATION_SERVER_ENDPOINT: https://registration-pal-amc.apps.pikes.pal.pivotal.io
+#  env:
+#    REGISTRATION_SERVER_ENDPOINT: https://registration-pal-amc.apps.pikes.pal.pivotal.io
   services:
   - tracker-backlog-database
+  - tracker-service-registry
