@@ -5,7 +5,7 @@ applications:
   - route: allocations-pal-jrb.apps.pikes.pal.pivotal.io
   memory: 1G
   instances: 1
- # env: 
+ # env:
  #   REGISTRATION_SERVER_ENDPOINT: https://registration-amc-jrb.apps.pikes.pal.pivotal.io
   services:
   - tracker-allocations-database
