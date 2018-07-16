@@ -25,6 +25,7 @@ public class ProjectClient {
 
         ProjectInfo project = restOperations.getForObject(registrationServerEndpoint + "/projects/" + projectId, ProjectInfo.class);
         projectsCache.put(projectId, project);
+
         return project;
     }
 
