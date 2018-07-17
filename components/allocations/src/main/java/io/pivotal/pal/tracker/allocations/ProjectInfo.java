@@ -1,8 +1,20 @@
 package io.pivotal.pal.tracker.allocations;
 
-public class ProjectInfo {
+import java.io.Serializable;
+
+public class ProjectInfo implements Serializable {
 
     public final boolean active;
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
+
+    private long projectId;
 
     private ProjectInfo() {
         this(false);
@@ -20,12 +32,12 @@ public class ProjectInfo {
 
         ProjectInfo that = (ProjectInfo) o;
 
-        return active == that.active;
+        return projectId == that.projectId;
     }
 
     @Override
     public int hashCode() {
-        return (active ? 1 : 0);
+        return ((int)projectId);
     }
 
     @Override
