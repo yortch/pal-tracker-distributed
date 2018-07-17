@@ -63,4 +63,42 @@ public class StoryDataGatewayTest {
                 .build()
         );
     }
+
+    @Test
+    public void testFindMostRecentStoryRecords() {
+        int id = 1347;
+        long projectId = 22L;
+        StoryFields field1 = storyFieldsBuilder()
+                .projectId(22L)
+                .name("aStory")
+                .build();
+        gateway.create(field1);
+
+        StoryFields field2 = storyFieldsBuilder()
+                .projectId(22L)
+                .name("aStory")
+                .build();
+        gateway.create(field2);
+
+        StoryFields field3 = storyFieldsBuilder()
+                .projectId(22L)
+                .name("Story 3")
+                .build();
+        gateway.create(field3);
+
+        StoryFields field4 = storyFieldsBuilder()
+                .projectId(22L)
+                .name("Story 4")
+                .build();
+        gateway.create(field4);
+
+        List<StoryRecord> list = gateway.findMostRecentStoryRecords(projectId, 2);
+        assertThat(list.size()).isEqualTo(2);
+
+        assertThat(list.get(0).name).isEqualTo(field4.name);
+        assertThat(list.get(1).name).isEqualTo(field3.name);
+
+
+    }
+
 }

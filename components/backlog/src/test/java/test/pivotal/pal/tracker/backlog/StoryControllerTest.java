@@ -4,6 +4,7 @@ import io.pivotal.pal.tracker.backlog.*;
 import io.pivotal.pal.tracker.backlog.data.StoryDataGateway;
 import io.pivotal.pal.tracker.backlog.data.StoryRecord;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -24,6 +25,9 @@ public class StoryControllerTest {
     private StoryDataGateway storyDataGateway = mock(StoryDataGateway.class);
     private ProjectClient client = mock(ProjectClient.class);
     private StoryController storyController = new StoryController(storyDataGateway, client);
+
+    @Value("${story.limit:5}")
+    private int limit;
 
     @Test
     public void testCreate() {
@@ -95,4 +99,33 @@ public class StoryControllerTest {
             testStoryInfoBuilder().id(13L).build()
         );
     }
+
+
+    @Test
+    public void testListMostRecent() {
+        List<StoryRecord> records2 = asList(
+                testStoryRecordBuilder().id(17L).build(),
+                testStoryRecordBuilder().id(16L).build(),
+                testStoryRecordBuilder().id(15L).build(),
+                testStoryRecordBuilder().id(14L).build(),
+                testStoryRecordBuilder().id(13L).build()
+        );
+
+        doReturn(records2).when(storyDataGateway).findMostRecentStoryRecords(anyLong(), anyInt());
+
+
+        List<StoryInfo> result = storyController.listMostRecent (13);
+
+
+        verify(storyDataGateway).findMostRecentStoryRecords(13L, 5);
+
+        assertThat(result).containsExactly(
+                testStoryInfoBuilder().id(17L).build(),
+                testStoryInfoBuilder().id(16L).build(),
+                testStoryInfoBuilder().id(15L).build(),
+                testStoryInfoBuilder().id(14L).build(),
+                testStoryInfoBuilder().id(13L).build()
+        );
+    }
+
 }
